@@ -4,7 +4,7 @@ import json
 import html.parser
 import socket
 
-from pytrends.exceptions import ResponseError
+from pytrends.exceptions import ResponseError, TooManyRequestsError
 from pytrends.request import TrendReq
 
 from app.config import Settings
@@ -87,7 +87,7 @@ def get_trends(search_query):
     out = {}
     try:
         pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25))
-    except ResponseError:
+    except TooManyRequestsError:
         proxies = [p.strip() for p in open(settings.proxies_file, 'r')]
         proxies.append(settings.http_schema + '://' + socket.gethostbyname(socket.gethostname()))
         pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25),
