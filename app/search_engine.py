@@ -87,6 +87,8 @@ def get_trends(search_query):
     out = {}
     try:
         pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25))
+        kw_list = [search_query]  # list of keywords to get data
+        pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m')
     except TooManyRequestsError:
         proxies = [p.strip() for p in open(settings.proxies_file, 'r')]
         proxies.append(settings.http_schema + '://' + socket.gethostbyname(socket.gethostname()))
@@ -94,11 +96,12 @@ def get_trends(search_query):
                             proxies=proxies, retries=3,
                             backoff_factor=0.1,
                             requests_args={'verify': False})
+
+        kw_list = [search_query]  # list of keywords to get data
+        pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m')
     finally:
         pass
 
-    kw_list = [search_query]  # list of keywords to get data
-    pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m')
 
     try:
         data_for_related_topics = pytrends.related_topics()
