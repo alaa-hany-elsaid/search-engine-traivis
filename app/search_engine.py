@@ -91,7 +91,7 @@ def get_trends(search_query):
         proxies.append(settings.http_schema + '://' + socket.gethostbyname(socket.gethostname()))
         print(proxies)
         pytrends = TrendReq(hl='en-US', tz=360, timeout=30,
-                            proxies=proxies, retries=3,
+                            proxies=proxies, retries=10,
                             backoff_factor=0.1,
                             requests_args={'verify': False})
 
