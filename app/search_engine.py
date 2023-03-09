@@ -84,8 +84,9 @@ def search(search_query):
 def get_trends(search_query):
     out = {}
     try:
+        print("welcome")
         pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2, backoff_factor=0.1)
-    except Exception as e:
+    except:
         proxies = [p.strip() for p in open(settings.proxies_file, 'r')]
         print(proxies)
         print(settings.http_schema + '://' + socket.gethostbyname(socket.gethostname()))
@@ -96,7 +97,6 @@ def get_trends(search_query):
 
     kw_list = [search_query]  # list of keywords to get data
     pytrends.build_payload(kw_list, cat=0, timeframe='today 12-m')
-
 
     try:
         data_for_related_topics = pytrends.related_topics()
@@ -127,5 +127,3 @@ def get_trends(search_query):
         {"date": str(data_over_time['date'][i].date()), "search_query": search_query,
          "isPartial": bool(data_over_time["isPartial"][i])} for i in range(len(data_over_time.index))]
     return out
-
-
