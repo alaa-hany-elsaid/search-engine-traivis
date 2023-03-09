@@ -83,10 +83,10 @@ def search(search_query):
 
 def get_trends(search_query):
     out = {}
+    pytrends = ''
     try:
-        proxies = [p.strip() for p in open(settings.proxies_file, 'r')]
+        proxies = [p.strip() for p in open(settings.proxies_file, 'r')].append(settings.http_schema + '://' + socket.gethostbyname(socket.gethostname()))
         print(proxies)
-        print(settings.http_schema + '://' + socket.gethostbyname(socket.gethostname()))
         pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25),
                             proxies=proxies, retries=3,
                             backoff_factor=0.1,
