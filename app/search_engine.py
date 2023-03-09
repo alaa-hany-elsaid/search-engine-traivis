@@ -86,9 +86,8 @@ def get_trends(search_query):
     try:
         print("welcome")
         pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2, backoff_factor=0.1)
-    except Exception as e:
+    except :
         print('welcome debug')
-        print(e)
         proxies = [p.strip() for p in open(settings.proxies_file, 'r')]
         proxies.append(settings.http_schema + '://' + socket.gethostbyname(socket.gethostname()))
         print(proxies)
